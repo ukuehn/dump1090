@@ -153,6 +153,10 @@
 #define MODES_CLIENT_BUF_SIZE 1024
 #define MODES_NET_SNDBUF_SIZE (1024*64)
 
+#ifndef HTMLPATH
+#define HTMLPATH   "./public_html"      /* default path for gmap.html etc. */
+#endif
+
 #define MODES_NOTUSED(V) ((void) V)
 
 /* Structure used to describe a networking client. */
@@ -3824,9 +3828,10 @@ int handleHTTPRequest(struct client *c) {
     }
     
     if (strlen(url) < 2) {
-        snprintf(getFile, sizeof getFile, "./public_html/gmap.html"); // Default file
+        snprintf(getFile, sizeof getFile, "%s/%s",
+		 HTMLPATH, "gmap.html");     // Default file
     } else {
-        snprintf(getFile, sizeof getFile, "./public_html%s", url);
+        snprintf(getFile, sizeof getFile, "%s/%s", HTMLPATH, url);
     }
 
     /* Select the content to send, we have just two so far:
